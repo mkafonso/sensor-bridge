@@ -5,9 +5,10 @@ import {
   useFonts,
 } from "@expo-google-fonts/inter";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Loading } from "./src/components";
+import { Navigation } from "./src/navigation";
 import { theme } from "./src/theme";
 
 export default function App() {
@@ -24,9 +25,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <View>
-          <Text>Hello, world</Text>
-        </View>
+        <Navigation />
         <StatusBar style="inverted" translucent />
       </SafeAreaView>
     </SafeAreaProvider>
