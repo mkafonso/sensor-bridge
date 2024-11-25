@@ -4,8 +4,11 @@ import {
   Inter_700Bold,
   useFonts,
 } from "@expo-google-fonts/inter";
+import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Loading } from "./src/components";
+import { theme } from "./src/theme";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -14,14 +17,19 @@ export default function App() {
     Inter_700Bold,
   });
 
-  if (fontsLoaded) {
+  if (!fontsLoaded) {
     return <Loading />;
   }
 
   return (
-    <View styles={styles.container}>
-      <Text>Hello, world</Text>
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <View>
+          <Text>Hello, world</Text>
+        </View>
+        <StatusBar style="inverted" translucent />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
@@ -29,6 +37,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: 500,
-    backgroundColor: "red",
+    backgroundColor: theme.colors["main-900"],
   },
 });
