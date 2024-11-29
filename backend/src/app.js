@@ -1,8 +1,8 @@
 import express, { json } from "express";
 
-// import { whatsappRoutes } from "./whatsapp/route.js";
-import { startSerialConnection } from "./serial/index.js";
-import { createWebSocketServer } from "./websocket/index.js";
+import { whatsappRoutes } from "./whatsapp/route.js";
+// import { startSerialConnection } from "./serial/index.js";
+// import { createWebSocketServer } from "./websocket/index.js";
 
 const HTTP_PORT = 3003;
 const WS_PORT = 4001;
@@ -13,11 +13,11 @@ const app = express();
 app.use(json());
 
 // init serial connection
-const serialParser = startSerialConnection(SERIAL_PORT, BAUD_RATE);
+// const serialParser = startSerialConnection(SERIAL_PORT, BAUD_RATE);
 
 // websocket server
-createWebSocketServer(WS_PORT, serialParser);
+// createWebSocketServer(WS_PORT, serialParser);
 
-// app.use("/api", whatsappRoutes);
+app.use("/api", whatsappRoutes);
 
 app.listen(HTTP_PORT, () => console.log("Server running on port ", HTTP_PORT));

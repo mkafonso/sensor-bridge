@@ -9,6 +9,7 @@ import Animated, {
 import Feather from "react-native-vector-icons/Feather";
 import { BackgroundSvg } from "../components/background-svg";
 import { FuelQuality, Profile, Temperature, VehicleWeight } from "../screens";
+import { sendPanicMessage } from "../services/whatsapp";
 import { useTemperature } from "../store/temperatura";
 import { theme } from "../theme";
 
@@ -129,7 +130,8 @@ export function MainNavigation() {
             tabBarIcon: ({ color }) => (
               <TouchableOpacity
                 activeOpacity={0.6}
-                delayLongPress={3000}
+                delayLongPress={1000}
+                onLongPress={sendPanicMessage}
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
