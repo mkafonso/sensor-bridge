@@ -7,13 +7,16 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import Feather from "react-native-vector-icons/Feather";
-import BackgroundSvg from "../assets/background.svg";
+import { BackgroundSvg } from "../components/background-svg";
 import { FuelQuality, Profile, Temperature, VehicleWeight } from "../screens";
+import { useTemperature } from "../store/temperatura";
 import { theme } from "../theme";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
 export function MainNavigation() {
+  const insideTemperature = useTemperature((s) => s.insideTemperature);
+
   const isAndroid = Platform.OS === "android";
 
   const translateX = useSharedValue(0);
@@ -59,7 +62,10 @@ export function MainNavigation() {
           backgroundStyle,
         ]}
       >
-        <BackgroundSvg style={StyleSheet.absoluteFillObject} />
+        <BackgroundSvg
+          style={StyleSheet.absoluteFillObject}
+          temperature={insideTemperature}
+        />
       </Animated.View>
 
       <Navigator
