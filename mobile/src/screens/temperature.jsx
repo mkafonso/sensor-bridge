@@ -10,8 +10,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TemperatureItem } from "../components/temperature-item";
 import { TemperatureStatus } from "../components/temperature-status";
 import { getCurrentTemperature } from "../services/weather";
-import { theme } from "../theme";
 import { useTemperature } from "../store/temperatura";
+import { theme } from "../theme";
 
 export function Temperature() {
   const insets = useSafeAreaInsets();
@@ -120,7 +120,9 @@ const styles = StyleSheet.create({
   },
   title: {
     color: theme.colors["secondary-600"],
-    fontSize: theme.fontSize["text-base"],
+    fontSize: theme.fontSize["text-sm"],
+    fontFamily: theme.fontFamily.medium,
+    paddingLeft: 3,
   },
   temperatureContainer: {
     marginTop: 4,
