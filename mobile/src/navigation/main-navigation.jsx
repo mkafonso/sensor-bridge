@@ -12,17 +12,20 @@ import {
   FuelQuality,
   Profile,
   ProfileAccount,
+  ProfileEmergencyDetails,
   Temperature,
   VehicleWeight,
 } from "../screens";
 import { sendPanicMessage } from "../services/whatsapp";
 import { useTemperature } from "../store/temperatura";
+import { useEmergencyContactStore } from "../store/emergency-contact";
 import { theme } from "../theme";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
 export function MainNavigation() {
   const insideTemperature = useTemperature((s) => s.insideTemperature);
+  const emergency = useEmergencyContactStore((s) => s.emergencyContact);
 
   const isAndroid = Platform.OS === "android";
 
@@ -145,7 +148,7 @@ export function MainNavigation() {
               <TouchableOpacity
                 activeOpacity={0.6}
                 delayLongPress={1000}
-                onLongPress={sendPanicMessage}
+                onLongPress={async () => await sendPanicMessage(emergency)}
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
@@ -211,6 +214,24 @@ export function MainNavigation() {
           }}
           listeners={({ navigation }) => ({
             focus: () => setBackgroundPosition(5),
+          })}
+        />
+
+        <Screen
+          name="profileEmergencyDetails"
+          component={ProfileEmergencyDetails}
+          options={{
+            tabBarIconStyle: {
+              display: "none",
+              width: 0,
+              padding: 0,
+              margin: 0,
+            },
+            tabBarButton: () => null,
+            tabBarVisible: false,
+          }}
+          listeners={({ navigation }) => ({
+            focus: () => setBackgroundPosition(6),
           })}
         />
       </Navigator>

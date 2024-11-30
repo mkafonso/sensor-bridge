@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Alert,
   KeyboardAvoidingView,
@@ -10,18 +11,19 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useEmergencyContactStore } from "../store/emergency-contact";
 import { theme } from "../theme";
-import { useUserStore } from "../store/account";
-import { useState } from "react";
 
-export function ProfileAccount() {
+export function ProfileEmergencyDetails() {
   const insets = useSafeAreaInsets();
-  const setUser = useUserStore((s) => s.setUser);
+  const setEmergency = useEmergencyContactStore((s) => s.setEmergencyContact);
   const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const [phone, setPhone] = useState("");
 
   const handleSave = async () => {
-    if (name.trim()) {
-      await setUser(name, "");
+    if (name.trim() && phone.trim() && message.trim()) {
+      await setEmergency(name, phone, message);
       Alert.alert("Sucesso", "Configurações salvas com sucesso!");
     } else {
       Alert.alert("Erro", "Preencha todos os campos antes de salvar.");
@@ -29,16 +31,16 @@ export function ProfileAccount() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.name}>Minha conta</Text>
+        <Text style={styles.name}>Contatos de emergência</Text>
       </View>
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ ...styles.container, paddingTop: insets.top }}
       >
-        <ScrollView>
+        <View>
           <Text style={styles.label}>Seu nome</Text>
           <TextInput
             style={styles.input}
@@ -46,17 +48,41 @@ export function ProfileAccount() {
             autoCorrect={false}
             value={name}
             onChangeText={setName}
-            placeholder="Digite seu nome"
+            placeholder="Nome do contato"
             autoComplete="off"
+            keyboardType="default"
+          />
+
+          <Text style={styles.label}>Celular</Text>
+          <TextInput
+            style={styles.input}
+            placeholderTextColor={theme.colors["main-400"]}
+            autoCorrect={false}
+            value={phone}
+            onChangeText={setPhone}
+            placeholder="Ex: xx xxxxx-xxxx"
+            autoComplete="off"
+            keyboardType="default"
+          />
+
+          <Text style={styles.label}>Digite sua mensagem</Text>
+          <TextInput
+            style={styles.textArea}
+            value={message}
+            onChangeText={setMessage}
+            placeholderTextColor={theme.colors["main-400"]}
+            placeholder="Escreva aqui..."
+            multiline
+            numberOfLines={4}
             keyboardType="default"
           />
 
           <TouchableOpacity style={styles.button} onPress={handleSave}>
             <Text style={styles.buttonText}>Salvar Configurações</Text>
           </TouchableOpacity>
-        </ScrollView>
+        </View>
       </KeyboardAvoidingView>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -90,6 +116,17 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     height: 44,
     padding: 12,
+  },
+  textArea: {
+    borderWidth: 1,
+    color: theme.colors["main-200"],
+    fontSize: theme.fontSize["text-xs"],
+    borderColor: theme.colors["main-600"],
+    borderRadius: 5,
+    padding: 12,
+    textAlignVertical: "top",
+    marginBottom: 15,
+    height: 110,
   },
   button: {
     backgroundColor: theme.colors["secondary-600"],

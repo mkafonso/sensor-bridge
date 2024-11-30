@@ -8,7 +8,7 @@ export function Profile(props) {
   const name = useUserStore((s) => s.name);
 
   const handleNavigation = (destination) => {
-    navigation.navigate("profileAccount");
+    navigation.navigate(destination);
   };
 
   return (
@@ -28,7 +28,7 @@ export function Profile(props) {
         <NavigationButton
           title="Meus contatos de emergência"
           icon="alert-triangle"
-          onPress={() => handleNavigation("PersonalData")}
+          onPress={() => handleNavigation("profileEmergencyDetails")}
         />
         <NavigationButton
           title="Informações do veículo"

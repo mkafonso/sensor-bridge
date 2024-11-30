@@ -34,41 +34,41 @@ export function Temperature() {
     return () => clearInterval(intervalId);
   }, []);
 
-  useEffect(() => {
-    const ws = new WebSocket("ws://192.168.15.187:4001");
+  // useEffect(() => {
+  //   const ws = new WebSocket("ws://192.168.15.187:4001");
 
-    ws.onopen = () => {
-      console.log("WebSocket connected");
-    };
+  //   ws.onopen = () => {
+  //     console.log("WebSocket connected");
+  //   };
 
-    ws.onmessage = (event) => {
-      try {
-        console.log(event);
-        const data = JSON.parse(event.data);
-        if (data.temperature) {
-          setInsideTemperature(data.temperature);
+  //   ws.onmessage = (event) => {
+  //     try {
+  //       console.log(event);
+  //       const data = JSON.parse(event.data);
+  //       if (data.temperature) {
+  //         setInsideTemperature(data.temperature);
 
-          if (data.temperature > maxInsideTemperature) {
-            setMaxInsideTemperature(data.temperature);
-          }
-        }
-      } catch (err) {
-        console.error("Error parsing WebSocket data:", err);
-      }
-    };
+  //         if (data.temperature > maxInsideTemperature) {
+  //           setMaxInsideTemperature(data.temperature);
+  //         }
+  //       }
+  //     } catch (err) {
+  //       console.error("Error parsing WebSocket data:", err);
+  //     }
+  //   };
 
-    ws.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
+  //   ws.onerror = (error) => {
+  //     console.error("WebSocket error:", error);
+  //   };
 
-    ws.onclose = () => {
-      console.log("WebSocket disconnected");
-    };
+  //   ws.onclose = () => {
+  //     console.log("WebSocket disconnected");
+  //   };
 
-    return () => {
-      ws.close();
-    };
-  }, []);
+  //   return () => {
+  //     ws.close();
+  //   };
+  // }, []);
 
   return (
     <View style={{ ...styles.container, paddingTop: insets.top }}>
