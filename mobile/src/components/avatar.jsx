@@ -7,6 +7,7 @@ import { theme } from "../theme";
 export function Avatar() {
   const avatarUri = useUserStore((s) => s.avatarUri);
   const setUser = useUserStore((s) => s.setUser);
+  const name = useUserStore((s) => s.name);
 
   const pickImage = async () => {
     const permissionResult =
@@ -26,7 +27,7 @@ export function Avatar() {
 
     if (!result.canceled && result.assets?.length) {
       const uri = result.assets[0].uri;
-      setUser("", uri);
+      setUser(name, uri);
     }
   };
 

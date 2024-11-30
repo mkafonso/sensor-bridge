@@ -45,6 +45,24 @@ export function MainNavigation() {
     };
   });
 
+  // const setBackgroundPosition = (index) => {
+  //   const width = 360;
+  //   let position;
+
+  //   if (index >= 5) {
+  //     position = 500;
+  //   } else {
+  //     position =
+  //       index === 0
+  //         ? -width / 2
+  //         : index === 4
+  //         ? width / 2
+  //         : (index - 2) * (width / 10);
+  //   }
+
+  //   translateX.value = position;
+  // };
+
   const setBackgroundPosition = (index) => {
     const width = 360;
     let position;
@@ -52,12 +70,7 @@ export function MainNavigation() {
     if (index >= 5) {
       position = 500;
     } else {
-      position =
-        index === 0
-          ? -width / 2
-          : index === 4
-          ? width / 2
-          : (index - 2) * (width / 10);
+      position = index === 0 ? -width / 2 : index === 4 ? width / 2 : 0;
     }
 
     translateX.value = position;

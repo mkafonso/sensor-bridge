@@ -17,11 +17,12 @@ import { useState } from "react";
 export function ProfileAccount() {
   const insets = useSafeAreaInsets();
   const setUser = useUserStore((s) => s.setUser);
+  const avatarUri = useUserStore((s) => s.avatarUri);
   const [name, setName] = useState("");
 
   const handleSave = async () => {
     if (name.trim()) {
-      await setUser(name, "");
+      await setUser(name, avatarUri);
       Alert.alert("Sucesso", "Configurações salvas com sucesso!");
     } else {
       Alert.alert("Erro", "Preencha todos os campos antes de salvar.");
