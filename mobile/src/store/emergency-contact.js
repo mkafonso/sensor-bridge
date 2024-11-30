@@ -32,4 +32,13 @@ export const useEmergencyContactStore = create((set) => ({
       });
     }
   },
+
+  resetEmergencyContact: () =>
+    set({
+      emergencyContact: {
+        name: "",
+        phone: "",
+        message: "",
+      },
+    }),
 }));

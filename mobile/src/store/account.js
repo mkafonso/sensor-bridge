@@ -21,4 +21,6 @@ export const useUserStore = create((set) => ({
       set({ name: storedName, avatarUri: storedAvatarUri });
     }
   },
+
+  resetUser: () => set({ name: "", avatarUri: "" }),
 }));

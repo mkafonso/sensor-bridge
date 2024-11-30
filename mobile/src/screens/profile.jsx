@@ -1,11 +1,47 @@
-import { StyleSheet, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { Avatar, NavigationButton } from "../components";
 import { useUserStore } from "../store/account";
+import { useEmergencyContactStore } from "../store/emergency-contact";
+import { useVehicleStore } from "../store/vehicle";
 import { theme } from "../theme";
 
 export function Profile(props) {
   const { navigation } = props;
   const name = useUserStore((s) => s.name);
+
+  const confirmAndClearUserData = () => {
+    Alert.alert(
+      "Confirmação",
+      "Você tem certeza que deseja excluir todos os seus dados? Esta ação não pode ser desfeita.",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Excluir",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await AsyncStorage.clear();
+
+              // Reset all Zustand stores
+              useUserStore.getState().resetUser();
+              useEmergencyContactStore.getState().resetEmergencyContact();
+              useVehicleStore.getState().resetVehicle();
+
+              Alert.alert("Sucesso", "Todos os seus dados foram excluídos.");
+              navigation.reset({ index: 0, routes: [{ name: "temperature" }] });
+            } catch (error) {
+              Alert.alert("Erro", "Não foi possível excluir seus dados.");
+              console.error("Error clearing AsyncStorage:", error);
+            }
+          },
+        },
+      ]
+    );
+  };
 
   const handleNavigation = (destination) => {
     navigation.navigate(destination);
@@ -15,7 +51,7 @@ export function Profile(props) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Avatar />
-        <Text style={styles.name}>{name ?? "Olá, visitante"}</Text>
+        <Text style={styles.name}>{name || "Olá, visitante"}</Text>
       </View>
 
       <View style={styles.section}>
@@ -33,7 +69,7 @@ export function Profile(props) {
         <NavigationButton
           title="Informações do veículo"
           icon="list"
-          onPress={() => handleNavigation("PersonalData")}
+          onPress={() => handleNavigation("profileVehicleDetails")}
           last
         />
       </View>
@@ -43,7 +79,7 @@ export function Profile(props) {
         <NavigationButton
           title="Excluir meus dados"
           icon="power"
-          onPress={() => handleNavigation("PersonalData")}
+          onPress={confirmAndClearUserData}
           danger
         />
       </View>

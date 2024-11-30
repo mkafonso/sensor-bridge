@@ -13,12 +13,13 @@ import {
   Profile,
   ProfileAccount,
   ProfileEmergencyDetails,
+  ProfileVehicleDetails,
   Temperature,
   VehicleWeight,
 } from "../screens";
 import { sendPanicMessage } from "../services/whatsapp";
-import { useTemperature } from "../store/temperatura";
 import { useEmergencyContactStore } from "../store/emergency-contact";
+import { useTemperature } from "../store/temperatura";
 import { theme } from "../theme";
 
 const { Navigator, Screen } = createBottomTabNavigator();
@@ -232,6 +233,24 @@ export function MainNavigation() {
           }}
           listeners={({ navigation }) => ({
             focus: () => setBackgroundPosition(6),
+          })}
+        />
+
+        <Screen
+          name="profileVehicleDetails"
+          component={ProfileVehicleDetails}
+          options={{
+            tabBarIconStyle: {
+              display: "none",
+              width: 0,
+              padding: 0,
+              margin: 0,
+            },
+            tabBarButton: () => null,
+            tabBarVisible: false,
+          }}
+          listeners={({ navigation }) => ({
+            focus: () => setBackgroundPosition(7),
           })}
         />
       </Navigator>
