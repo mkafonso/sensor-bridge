@@ -8,7 +8,13 @@ import Animated, {
 } from "react-native-reanimated";
 import Feather from "react-native-vector-icons/Feather";
 import { BackgroundSvg } from "../components/background-svg";
-import { FuelQuality, Profile, Temperature, VehicleWeight } from "../screens";
+import {
+  FuelQuality,
+  Profile,
+  ProfileAccount,
+  Temperature,
+  VehicleWeight,
+} from "../screens";
 import { sendPanicMessage } from "../services/whatsapp";
 import { useTemperature } from "../store/temperatura";
 import { theme } from "../theme";
@@ -37,12 +43,19 @@ export function MainNavigation() {
 
   const setBackgroundPosition = (index) => {
     const width = 360;
-    const position =
-      index === 0
-        ? -width / 2
-        : index === 4
-        ? width / 2
-        : (index - 2) * (width / 10);
+    let position;
+
+    if (index >= 5) {
+      position = 500;
+    } else {
+      position =
+        index === 0
+          ? -width / 2
+          : index === 4
+          ? width / 2
+          : (index - 2) * (width / 10);
+    }
+
     translateX.value = position;
   };
 
@@ -70,6 +83,7 @@ export function MainNavigation() {
       </Animated.View>
 
       <Navigator
+        initialRouteName="profileAccount"
         screenOptions={() => ({
           headerShown: false,
           tabBarShowLabel: false,
@@ -179,6 +193,24 @@ export function MainNavigation() {
           }}
           listeners={({ navigation }) => ({
             focus: () => setBackgroundPosition(4),
+          })}
+        />
+
+        <Screen
+          name="profileAccount"
+          component={ProfileAccount}
+          options={{
+            tabBarIconStyle: {
+              display: "none",
+              width: 0,
+              padding: 0,
+              margin: 0,
+            },
+            tabBarButton: () => null,
+            tabBarVisible: false,
+          }}
+          listeners={({ navigation }) => ({
+            focus: () => setBackgroundPosition(5),
           })}
         />
       </Navigator>

@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Avatar, NavigationButton } from "../components";
+import { useUserStore } from "../store/account";
 import { theme } from "../theme";
 
 export function Profile(props) {
   const { navigation } = props;
+  const name = useUserStore((s) => s.name);
 
   const handleNavigation = (destination) => {
     navigation.navigate("profileAccount");
@@ -13,7 +15,7 @@ export function Profile(props) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Avatar />
-        <Text style={styles.name}>Olá, visitante</Text>
+        <Text style={styles.name}>{name ?? "Olá, visitante"}</Text>
       </View>
 
       <View style={styles.section}>
