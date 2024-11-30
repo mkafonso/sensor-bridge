@@ -9,16 +9,19 @@ export async function sendPanicMessage(props) {
   }
 
   try {
-    const response = await fetch("http://localhost:3003/api/send-message", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        to: `55${removeSpecialCharacters(phone)}`,
-        message: generatePanicMessage(name, message),
-      }),
-    });
+    const response = await fetch(
+      "http://192.168.15.187:3003/api/send-message",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: `55${removeSpecialCharacters(phone)}`,
+          message: generatePanicMessage({ name, message }),
+        }),
+      }
+    );
 
     const data = await response.json();
     if (data.success) {
@@ -32,12 +35,12 @@ export async function sendPanicMessage(props) {
 }
 
 const generatePanicMessage = (props) => {
-  const { emergencyContactName, emergencyContactMessage } = props;
+  const { name, message } = props;
 
-  return `🚨 *ALERTA URGENTE para ${emergencyContactName}* 🚨
+  return `🚨 *ALERTA URGENTE para ${name}* 🚨
 
 📍 *Detalhes:*
 
-${emergencyContactMessage}
+${message}
 `;
 };
