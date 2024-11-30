@@ -24,7 +24,7 @@ import { theme } from "../theme";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-export function MainNavigation() {
+export function BottomTabNavigator() {
   const insideTemperature = useTemperature((s) => s.insideTemperature);
   const emergency = useEmergencyContactStore((s) => s.emergencyContact);
 
@@ -44,24 +44,6 @@ export function MainNavigation() {
       ],
     };
   });
-
-  // const setBackgroundPosition = (index) => {
-  //   const width = 360;
-  //   let position;
-
-  //   if (index >= 5) {
-  //     position = 500;
-  //   } else {
-  //     position =
-  //       index === 0
-  //         ? -width / 2
-  //         : index === 4
-  //         ? width / 2
-  //         : (index - 2) * (width / 10);
-  //   }
-
-  //   translateX.value = position;
-  // };
 
   const setBackgroundPosition = (index) => {
     const width = 360;
@@ -100,7 +82,6 @@ export function MainNavigation() {
       </Animated.View>
 
       <Navigator
-        initialRouteName="profileAccount"
         screenOptions={() => ({
           headerShown: false,
           tabBarShowLabel: false,
@@ -109,9 +90,12 @@ export function MainNavigation() {
           tabBarStyle: {
             backgroundColor: theme.colors["main-900"],
             borderTopWidth: 0.5,
-            paddingTop: isAndroid ? 8 : 16,
+            height: isAndroid ? "auto" : 72,
+            paddingTop: isAndroid ? 12 : 16,
+            paddingBottom: isAndroid ? 12 : 16,
             borderColor: theme.colors["main-700"],
-            height: isAndroid ? 64 : 72,
+            // paddingTop: isAndroid ? 8 : 16,
+            // height: isAndroid ? 64 : 72,
             position: "absolute",
             left: 0,
             right: 0,
@@ -217,12 +201,6 @@ export function MainNavigation() {
           name="profileAccount"
           component={ProfileAccount}
           options={{
-            tabBarIconStyle: {
-              display: "none",
-              width: 0,
-              padding: 0,
-              margin: 0,
-            },
             tabBarButton: () => null,
             tabBarVisible: false,
           }}
@@ -235,12 +213,6 @@ export function MainNavigation() {
           name="profileEmergencyDetails"
           component={ProfileEmergencyDetails}
           options={{
-            tabBarIconStyle: {
-              display: "none",
-              width: 0,
-              padding: 0,
-              margin: 0,
-            },
             tabBarButton: () => null,
             tabBarVisible: false,
           }}
@@ -253,12 +225,6 @@ export function MainNavigation() {
           name="profileVehicleDetails"
           component={ProfileVehicleDetails}
           options={{
-            tabBarIconStyle: {
-              display: "none",
-              width: 0,
-              padding: 0,
-              margin: 0,
-            },
             tabBarButton: () => null,
             tabBarVisible: false,
           }}
