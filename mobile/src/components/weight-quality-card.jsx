@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { theme } from "../theme";
 
-export function FuelQualityCard({ type, value }) {
+export function WeightQualityCard({ type, value }) {
   const { cardStyle, label, valueStyle, contentStyle } = getCardStyles(
     type,
     value
@@ -24,7 +24,7 @@ function getCardStyles(type, value) {
       const qualityStyles = getQualityStyles(value);
       return {
         cardStyle: qualityStyles,
-        label: "Qualidade do combustível",
+        label: "Peso total",
         valueStyle: styles.qualityValue,
         contentStyle: styles.defaultContent,
       };
@@ -83,7 +83,7 @@ function getQualityStyles(value) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "48%",
+    width: "100%",
     height: "44%",
     padding: 8,
     borderRadius: 16,

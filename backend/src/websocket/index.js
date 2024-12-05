@@ -9,11 +9,24 @@ export const createWebSocketServer = (port, serialParser) => {
     if (serialParser && typeof serialParser.on === "function") {
       serialParser.on("data", (data) => {
         try {
-          const jsonData = parseSerialData(data);
-          ws.send(JSON.stringify(jsonData));
-        } catch (err) {
+          const [temperature, presence] = data
+            .split(",")
+            .map((value, index) =>
+              index === 0 ? parseFloat(value) : value.trim() === "true"
+            );
+
+          const formattedData = { temperature, presence };
+          sendDataToClient(formattedData);
+        } catch (error) {
           console.error("error processing serial data:", err);
         }
+
+        // try {
+        //   const jsonData = parseSerialData(data);
+        //   ws.send(JSON.stringify(jsonData));
+        // } catch (err) {
+        //   console.error("error processing serial data:", err);
+        // }
       });
     } else {
       console.error(
@@ -27,8 +40,4 @@ export const createWebSocketServer = (port, serialParser) => {
   });
 
   console.log(`WebSocket server running on port: ${port}`);
-};
-
-const parseSerialData = (data) => {
-  return { temperature: data };
 };

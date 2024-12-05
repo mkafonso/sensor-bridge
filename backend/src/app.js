@@ -1,23 +1,46 @@
 import express, { json } from "express";
+import WebSocket from "ws";
+// import { whatsappRoutes } from "./whatsapp/route.js";
+import { startSerialConnection } from "./serial/index.js";
 
-import { whatsappRoutes } from "./whatsapp/route.js";
-// import { startSerialConnection } from "./serial/index.js";
-// import { createWebSocketServer } from "./websocket/index.js";
+const app = express();
+app.use(json());
 
 const HTTP_PORT = 3003;
 const WS_PORT = 4001;
 const BAUD_RATE = 9600;
-const SERIAL_PORT = "/dev/tty.usbmodem1101";
-const app = express();
 
-app.use(json());
+const SERIAL_PORT_TEMPERATURA = "/dev/tty.usbmodem11101";
+const SERIAL_PORT_WEIGHT = "/dev/tty.usbmodem11201";
 
-// init serial connection
-// const serialParser = startSerialConnection(SERIAL_PORT, BAUD_RATE);
+const wss = new WebSocket.Server({ port: WS_PORT });
 
-// websocket server
-// createWebSocketServer(WS_PORT, serialParser);
+wss.on("connection", (ws) => {
+  console.log("Cliente WebSocket conectado");
 
-app.use("/api", whatsappRoutes);
+  const sendDataToClient = (data) => {
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify(data));
+    }
+  };
 
-app.listen(HTTP_PORT, () => console.log("Server running on port ", HTTP_PORT));
+  const serialParser = startSerialConnection(
+    [SERIAL_PORT_TEMPERATURA, SERIAL_PORT_WEIGHT],
+    BAUD_RATE,
+    sendDataToClient
+  );
+
+  ws.on("close", () => {
+    console.log("Conexão WebSocket fechada");
+  });
+
+  ws.on("error", (err) => {
+    console.error("Erro no WebSocket:", err);
+  });
+});
+
+// app.use("/api", whatsappRoutes);
+
+app.listen(HTTP_PORT, () => {
+  console.log("Servidor HTTP rodando na porta", HTTP_PORT);
+});

@@ -4,14 +4,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FuelQualityCard } from "../components";
 import { useVehicleStore } from "../store/vehicle";
 import { theme } from "../theme";
+import { useFuelStore } from "../store/fuel";
 
 export function FuelQuality() {
   const insets = useSafeAreaInsets();
   const vehicle = useVehicleStore((s) => s.vehicle);
+  const fuelQuality = useFuelStore((t) => t.fuelQuality);
 
   return (
     <View style={{ ...styles.container, paddingTop: insets.top }}>
-      <FuelQualityCard type="quality" value="100" />
+      <FuelQualityCard type="quality" value={fuelQuality} />
       <FuelQualityCard type="brand" value={vehicle.brand || "N/A"} />
       <FuelQualityCard type="model" value={vehicle.model || "N/A"} />
       <FuelQualityCard type="year" value={vehicle.year || "N/A"} />

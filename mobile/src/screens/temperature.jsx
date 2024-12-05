@@ -17,9 +17,9 @@ export function Temperature() {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const insideTemperature = useTemperature((s) => s.insideTemperature);
-  const setInsideTemperature = useTemperature((s) => s.setInsideTemperature);
+  const maxInsideTemperature = useTemperature((s) => s.maxInsideTemperature);
+  const presence = useTemperature((s) => s.presence);
 
-  const [maxInsideTemperature, setMaxInsideTemperature] = useState(0); // Estado para armazenar a temperatura máxima interna
   const [outsideTemperature, setOutsideTemperature] = useState({
     temp: 0,
     temp_max: 0,
@@ -33,42 +33,6 @@ export function Temperature() {
 
     return () => clearInterval(intervalId);
   }, []);
-
-  // useEffect(() => {
-  //   const ws = new WebSocket("ws://192.168.15.187:4001");
-
-  //   ws.onopen = () => {
-  //     console.log("WebSocket connected");
-  //   };
-
-  //   ws.onmessage = (event) => {
-  //     try {
-  //       console.log(event);
-  //       const data = JSON.parse(event.data);
-  //       if (data.temperature) {
-  //         setInsideTemperature(data.temperature);
-
-  //         if (data.temperature > maxInsideTemperature) {
-  //           setMaxInsideTemperature(data.temperature);
-  //         }
-  //       }
-  //     } catch (err) {
-  //       console.error("Error parsing WebSocket data:", err);
-  //     }
-  //   };
-
-  //   ws.onerror = (error) => {
-  //     console.error("WebSocket error:", error);
-  //   };
-
-  //   ws.onclose = () => {
-  //     console.log("WebSocket disconnected");
-  //   };
-
-  //   return () => {
-  //     ws.close();
-  //   };
-  // }, []);
 
   return (
     <View style={{ ...styles.container, paddingTop: insets.top }}>
@@ -97,7 +61,10 @@ export function Temperature() {
           </View>
         </View>
 
-        <TemperatureStatus temperature={insideTemperature ?? 0} />
+        <TemperatureStatus
+          temperature={insideTemperature ?? 0}
+          presence={presence}
+        />
       </Animated.View>
     </View>
   );

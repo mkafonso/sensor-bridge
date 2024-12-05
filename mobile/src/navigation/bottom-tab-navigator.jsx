@@ -197,7 +197,7 @@ export function BottomTabNavigator() {
           })}
         />
 
-        <Screen
+        {/* <Screen
           name="profileAccount"
           component={ProfileAccount}
           options={{
@@ -231,7 +231,7 @@ export function BottomTabNavigator() {
           listeners={({ navigation }) => ({
             focus: () => setBackgroundPosition(7),
           })}
-        />
+        /> */}
       </Navigator>
     </React.Fragment>
   );

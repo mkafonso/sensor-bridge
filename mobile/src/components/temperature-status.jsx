@@ -3,25 +3,31 @@ import { StyleSheet, Text, View } from "react-native";
 import { theme } from "../theme";
 
 export function TemperatureStatus(props) {
-  const { temperature } = props;
+  const { temperature, presence } = props;
   const isTooHot = temperature > 37;
   const isIdeal = temperature >= 18 && temperature <= 38;
 
   const status = isTooHot
     ? {
         icon: "alert-triangle",
-        text: "Recomendamos abrir as janelas ou ligar o ar condicionado.",
+        text: `Recomendamos abrir as janelas ou ligar o ar condicionado. ${
+          presence != "false" ? "Detectei movimento dentro do veículo" : ""
+        }`,
         color: theme.colors["danger-600"],
       }
     : isIdeal
     ? {
         icon: "check-circle",
-        text: "Temperatura ideal! Aproveite o clima agradável.",
+        text: `Temperatura ideal! Aproveite o clima agradável. ${
+          presence != "false" ? "Detectei movimento dentro do veículo" : ""
+        }`,
         color: theme.colors["secondary-600"],
       }
     : {
         icon: "info",
-        text: "Está frio, mantenha-se aquecido.",
+        text: `Está frio, mantenha-se aquecido. ${
+          presence != "false" ? "Detectei movimento dentro do veículo" : ""
+        }`,
         color: theme.colors["main-600"],
       };
 
