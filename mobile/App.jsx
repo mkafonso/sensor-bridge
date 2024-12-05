@@ -38,7 +38,7 @@ export default function App() {
   const setWeightQuality = useWeightStore((t) => t.setWeightQuality);
 
   useEffect(() => {
-    const ws = new WebSocket("ws://192.168.15.187:4001");
+    const ws = new WebSocket("ws://192.168.15.4:4001");
 
     ws.onopen = () => {
       console.log("WebSocket connected");
