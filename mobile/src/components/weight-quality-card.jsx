@@ -60,17 +60,17 @@ function getCardStyles(type, value) {
 }
 
 function getQualityStyles(value) {
-  const numericValue = parseFloat(value);
+  const numericValue = Math.abs(parseFloat(value));
 
-  if (numericValue > 70) {
+  if (numericValue > 30) {
     return {
       backgroundColor: "#16a34a",
     };
-  } else if (numericValue >= 50 && numericValue <= 69) {
+  } else if (numericValue >= 7 && numericValue <= 29) {
     return {
       backgroundColor: "#eab308",
     };
-  } else if (numericValue < 50) {
+  } else if (numericValue < 15) {
     return {
       backgroundColor: theme.colors["danger-600"],
     };

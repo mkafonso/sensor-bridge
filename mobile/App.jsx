@@ -43,6 +43,7 @@ export default function App() {
         let data = JSON.parse(event.data);
 
         console.log({"data.temperature": data.temperature})
+        console.log({"data.weight": data.weight})
 
         if (data.temperature) {
           data = data.temperature.split(",");
@@ -66,7 +67,7 @@ export default function App() {
         }
 
         if (data.weight) {
-          setWeightQuality(data.weight);
+          setWeightQuality(Math.abs(parseFloat(data.weight)) * 10);
         }
       } catch (err) {
         console.error("Error parsing WebSocket data:", err);
