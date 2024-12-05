@@ -5,10 +5,15 @@ import { useUserStore } from "../store/account";
 import { useEmergencyContactStore } from "../store/emergency-contact";
 import { useVehicleStore } from "../store/vehicle";
 import { theme } from "../theme";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { useMemo } from "react";
+import { ProfileAccount } from "./profile-account";
 
 export function Profile(props) {
   const { navigation } = props;
   const name = useUserStore((s) => s.name);
+  const snapPoints = useMemo(() => ["25%", "50%"], []);
+  const bottomSheetRef = useRef(null);
 
   const confirmAndClearUserData = () => {
     Alert.alert(
@@ -47,6 +52,10 @@ export function Profile(props) {
     navigation.navigate(destination);
   };
 
+  const handleOpenBottomSheet = useCallback(() => {
+    bottomSheetRef.current?.expand();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -59,7 +68,7 @@ export function Profile(props) {
         <NavigationButton
           title="Minha conta"
           icon="user"
-          onPress={() => handleNavigation("profileAccount")}
+          onPress={handleOpenBottomSheet}
         />
         <NavigationButton
           title="Meus contatos de emergência"
@@ -83,6 +92,16 @@ export function Profile(props) {
           danger
         />
       </View>
+
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={-1}
+        snapPoints={snapPoints}
+        enablePanDownToClose
+        backgroundStyle={styles.bottomSheetBackground}
+      >
+        <ProfileAccount />
+      </BottomSheet>
     </View>
   );
 }
