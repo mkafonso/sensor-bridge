@@ -14,6 +14,12 @@ import { useTemperature } from "./src/store/temperatura";
 import { theme } from "./src/theme";
 import { useWeightStore } from "./src/store/weight";
 
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs([
+  "Cannot update a component (`Temperature`) while",
+]);
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
