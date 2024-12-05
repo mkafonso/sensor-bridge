@@ -1,0 +1,11 @@
+{
+  "name": "sensorbridge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run start --prefix ./backend\" \"npm run start --prefix ./mobile\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
